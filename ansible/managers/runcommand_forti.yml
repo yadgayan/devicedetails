@@ -1,0 +1,21 @@
+---
+
+- name: run command
+  hosts: fortimanagers_mgt
+  gather_facts: false
+
+  tasks:      
+    - name: run command
+      raw: "{{ item }}"
+      loop:
+        - "get system status"
+        - "get system performance"        
+      register: fortiinfo
+
+    - name: parse data
+      set_fact:
+        parsed: "{{ lookup('forti_info', inventory_hostname, fortiinfo.results, 'mgt', ansible_host) }}"
+
+    - name: results
+      debug:
+        var: parsed

@@ -1,0 +1,24 @@
+---
+- name: L5 SWT
+  connection: network_cli
+  hosts: L5coreswitches
+  gather_facts: false
+
+  tasks:
+    - name: Add vlan 2596 to port channels
+      nxos_command:
+        commands:
+        - config t
+        - interface port-channel21
+        - switchport trunk allowed vlan add 3636
+        - exit
+        - interface port-channel22
+        - switchport trunk allowed vlan add 3636
+        - exit
+        - end
+        - copy run start
+      register: res
+
+    - name: Results
+      debug:
+        var: res        

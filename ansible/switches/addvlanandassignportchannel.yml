@@ -1,0 +1,33 @@
+---
+- name: L5 SWT
+  connection: network_cli
+  hosts: L5mgtswitches
+  gather_facts: false
+
+  vars:
+    vlanid: '101'
+
+
+  tasks:
+    - name: Add Vlan "{{ vlanid }}"
+      nxos_vlan:
+        vlan_id: "{{ vlanid }}"
+        name: "vm_{{ vlanid }}_10.240.7.8/29"
+
+    - name: Add vlan {{ vlanid }} to port channels
+      nxos_command:
+        commands:
+        - config t
+        - interface port-channel11
+        - switchport trunk allowed vlan add {{ vlanid }}
+        - exit
+        - interface port-channel12
+        - switchport trunk allowed vlan add {{ vlanid }}
+        - exit
+        - end
+        - copy run start
+      register: res
+
+    - name: Results
+      debug:
+        var: res        

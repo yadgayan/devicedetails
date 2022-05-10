@@ -1,0 +1,15 @@
+---
+
+- name: check routes on splat mgt firewalls
+  hosts: mgtsplatfirewalls
+  gather_facts: false
+
+  tasks:      
+    - name: check routes via interconnect
+      raw: "netstat -nr | grep 2596"
+      register: res
+
+    - name: results
+      debug:
+        var: res
+

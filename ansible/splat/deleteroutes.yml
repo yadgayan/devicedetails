@@ -1,0 +1,15 @@
+---
+
+- name: add route to splat mgt firewalls
+  hosts: mgtsplatfirewalls
+  gather_facts: false
+
+  tasks:      
+    # - name: Add hosts routes via interconnect
+    #   raw: "route add -host {{ item }} gw 10.240.16.62"
+    #   loop:
+
+    - name: Add network routes via interconnect
+      raw: "route del -net {{ item }} gw 10.240.16.62"
+      loop:
+        - '10.240.20.0/24'

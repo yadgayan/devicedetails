@@ -1,0 +1,85 @@
+---
+
+- name: F5 get config special
+  hosts: F5special
+  connection: local
+  gather_facts: false
+
+  tasks:
+  - name: Collect BIG-IP information
+    bigip_command:
+      commands: 
+      - cd /
+      - list ltm virtual recursive one-line
+      - list net self recursive one-line
+      provider:
+        server: "{{ inventory_hostname }}"        
+        password: "{{ lookup('getpmppassword','temgen1', 'admin') }}"
+        user: "T820350"
+        transport: cli
+    register: f5info
+    delegate_to: localhost
+
+  - name: parse data
+    set_fact:
+      parsed: "{{ lookup('f5_config', inventory_hostname, f5info.stdout_lines) }}"
+
+  - name: results
+    debug:
+      var: parsed   
+
+- name: F5 get config
+  hosts: F5
+  connection: local
+  gather_facts: false
+
+  tasks:
+  - name: Collect BIG-IP information
+    bigip_command:
+      commands: 
+      - cd /
+      - list ltm virtual recursive one-line
+      - list net self recursive one-line
+      provider:
+        server: "{{ inventory_hostname }}"
+        user: "T820350"
+        password: "{{ f5_pass}}"        
+        transport: cli
+    register: f5info
+    delegate_to: localhost
+
+  - name: parse data
+    set_fact:
+      parsed: "{{ lookup('f5_config', inventory_hostname, f5info.stdout_lines) }}"
+
+  - name: results
+    debug:
+      var: parsed
+ 
+- name: F5 get config old
+  hosts: F5old
+  connection: local
+  gather_facts: false
+
+  tasks:
+  - name: Collect BIG-IP information
+    bigip_command:
+      commands: 
+      - cd /
+      - list ltm virtual recursive one-line
+      - list net self recursive one-line
+      provider:
+        server: "{{ inventory_hostname }}"
+        user: "T820350"
+        password: "{{ f5_pass}}"        
+        transport: cli
+    register: f5info
+    delegate_to: localhost
+
+  - name: parse data
+    set_fact:
+      parsed: "{{ lookup('f5_config', inventory_hostname, f5info.stdout_lines) }}"
+
+  - name: results
+    debug:
+      var: parsed

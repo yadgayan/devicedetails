@@ -1,0 +1,53 @@
+---
+
+- name: run command
+  hosts: ckpmanagersold
+  gather_facts: false
+
+  tasks:      
+    - name: run command
+      raw: "{{ item }}"
+      loop:
+        - show asset system
+        - "show version all"
+        - "cpstat os -f cpu"
+        - "cpstat os -f memory"
+        - "cpstat os -f multi_disk"
+        - "cplic print"
+      register: ckpinfo
+
+    - name: parse data
+      set_fact:
+        parsed: "{{ lookup('ckp_info', inventory_hostname, ckpinfo.results, 'mgt') }}"
+
+    - name: results
+      debug:
+        var: parsed
+
+    # - name: check stuff
+    #   debug:
+    #     msg: "{{res.stdout_lines[0]}}"        
+
+- name: run command
+  hosts: ckpmanagers
+  gather_facts: false
+
+  tasks:      
+    - name: run command
+      raw: "{{ item }}"
+      loop:
+        - show asset system
+        - "show version all"
+        - "cpstat os -f cpu"
+        - "cpstat os -f memory"
+        - "cpstat os -f multi_disk"
+        - "cplic print"
+      register: ckpinfo
+
+    - name: parse data
+      set_fact:
+        parsed: "{{ lookup('ckp_info', inventory_hostname, ckpinfo.results, 'mgt') }}"
+
+    - name: results
+      debug:
+        var: parsed               

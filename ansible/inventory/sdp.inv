@@ -1,0 +1,97 @@
+[mgtsplatfirewalls]
+MDRMGTFWL03 ansible_connection=ssh ansible_host=10.240.10.130 ansible_user=admin ansible_ssh_pass="{{ lookup('getpmppassword','MDRMGTFWL03', 'admin')}}"
+MDRMGTFWL04 ansible_connection=ssh ansible_host=10.240.10.131 ansible_user=admin ansible_ssh_pass="{{ lookup('getpmppassword','MDRMGTFWL04', 'admin')}}"
+[L4ccm]
+ccm ansible_host=10.240.5.95
+[L5mgtswitches]
+MDRMGTSWT001 ansible_host=10.240.1.181
+MDRMGTSWT002 ansible_host=10.240.1.182
+[L5coreswitches]
+MDRCORSWT03 ansible_host=10.240.5.25
+MDRCORSWT04 ansible_host=10.240.5.26
+[L5switches]
+MDRMGTSWT001
+MDRMGTSWT002
+MDRCORSWT03
+MDRCORSWT04
+[F5]
+mdrcorlbs09.mgmt.sdp.net.nz
+mdrcorlbs10.mgmt.sdp.net.nz
+mdrhzblbs03.mgmt.sdp.net.nz
+mdrhzblbs04.mgmt.sdp.net.nz
+mdrcorlbs11.mgmt.sdp.net.nz
+mdrcorlbs12.mgmt.sdp.net.nz
+mdrcorlbs13.mgmt.sdp.net.nz
+mdrcorlbs14.mgmt.sdp.net.nz
+wn1corlbs05.mgmt.sdp.net.nz
+wn1corlbs06.mgmt.sdp.net.nz
+n4ldmzvpn011.mgmt.sdp.net.nz
+n4ldmzvpn012.mgmt.sdp.net.nz
+mdrdmzvpn09.mgmt.sdp.net.nz
+mdrdmzvpn10.mgmt.sdp.net.nz
+mdrdmzvpn015.mgmt.sdp.net.nz
+mdrdmzvpn016.mgmt.sdp.net.nz
+mdrdmzvpn017.mgmt.sdp.net.nz
+mdrdmzvpn018.mgmt.sdp.net.nz
+[F5special]
+mdrcorlbs15.mgmt.sdp.net.nz
+mdrcorlbs16.mgmt.sdp.net.nz
+mdrcorlbs17.mgmt.sdp.net.nz
+mdrcorlbs18.mgmt.sdp.net.nz
+adcnaalbs001.mgmt.sdp.net.nz
+adcnaalbs002.mgmt.sdp.net.nz
+[F5old]
+wn1corlbs03.mgmt.sdp.net.nz
+wn1corlbs04.mgmt.sdp.net.nz
+[ckpmanagers]
+CKPCORRLOG001.mgmt.sdp.net.nz
+CKPDMALOG001.mgmt.sdp.net.nz
+CKPMDLMGT001.mgmt.sdp.net.nz
+CKPMDMMGT001.mgmt.sdp.net.nz
+[ckpmanagersold]
+MDRFWLEVT01 ansible_user=admin ansible_ssh_pass="{{ lookup('getpmppassword','MDRFWLEVT01', 'admin')}}"
+MDRFWLMGT05.mgmt.sdp.net.nz ansible_user=admin ansible_ssh_pass="{{ lookup('getpmppassword','MDRFWLMGT05', 'admin')}}"
+MDRFWLMGT06.mgmt.sdp.net.nz ansible_user=admin ansible_ssh_pass="{{ lookup('getpmppassword','MDRFWLMGT06', 'admin')}}"
+MDRFWLRPT01.mgmt.sdp.net.nz ansible_user=admin ansible_ssh_pass="{{ lookup('getpmppassword','MDRFWLRPT01', 'admin')}}"
+[ckpfirewalls]
+mdrmgtfwl001.mgmt.sdp.net.nz ansible_user=admin ansible_ssh_pass="{{ lookup('getpmppassword','MDRMGTFWL001', 'admin')}}"
+mdrmgtfwl002.mgmt.sdp.net.nz ansible_user=admin ansible_ssh_pass="{{ lookup('getpmppassword','MDRMGTFWL002', 'admin')}}"
+mdrsmffwl001.mgmt.sdp.net.nz ansible_user=admin ansible_ssh_pass="{{ lookup('getpmppassword','MDRSMFFWL001', 'admin')}}"
+mdrsmffwl002.mgmt.sdp.net.nz ansible_user=admin ansible_ssh_pass="{{ lookup('getpmppassword','MDRSMFFWL002', 'admin')}}"
+[fortimanagers_mgt]
+FORTNFANA001.mgmt.sdp.net.nz ansible_user=admin ansible_ssh_pass="{{ lookup('getpmppassword','FORTNFANA001', 'admin')}}"
+FORTNFMGT001.mgmt.sdp.net.nz ansible_user=admin ansible_ssh_pass="{{ lookup('getpmppassword','FORTNFMGT001', 'admin')}}"
+[fortimanagers_dmz]
+FORNAAANA101 ansible_user=admin ansible_ssh_pass="{{ lookup('getpmppassword','FORNAAANA101', 'admin')}}" ansible_host=10.245.4.22
+FORNAAANA201 ansible_user=apiadmin ansible_ssh_pass="{{ lookup('getpmppassword','FORNAAANA201', 'apiadmin')}}" ansible_host=10.245.4.38
+FORNAAFMG101 ansible_user=admin ansible_ssh_pass="{{ lookup('getpmppassword','FORNAAFMG101', 'admin')}}" ansible_host=10.245.4.20
+FORNAAFMG202 ansible_user=apiadmin ansible_ssh_pass="{{ lookup('getpmppassword','FORNAAFMG202', 'apiadmin')}}" ansible_host=10.245.4.36
+[fortimanagers_n4l]
+MDRN4LFORTvMGT01 ansible_user=admin ansible_ssh_pass="{{ lookup('getpmppassword','MDRN4LFORTvMGT01', 'admin')}}"
+mdrn4lfortpana01 ansible_user=admin ansible_ssh_pass="{{ lookup('getpmppassword','MDRN4LFORTIpANA01', 'admin')}}"
+mdrn4lfortpana02 ansible_user=admin ansible_ssh_pass="{{ lookup('getpmppassword','MDRN4LFORTIpANA01', 'admin')}}"
+wn1n4lfortpana01 ansible_user=admin ansible_ssh_pass="{{ lookup('getpmppassword','MDRN4LFORTIpANA01', 'admin')}}"
+wn1n4lfortpana02 ansible_user=admin ansible_ssh_pass="{{ lookup('getpmppassword','MDRN4LFORTIpANA01', 'admin')}}"
+[fortiportals]
+FORDMAPTL201 ansible_connection=ssh ansible_host=10.245.4.39 ansible_user=admin ansible_ssh_pass="{{ lookup('getpmppassword','FORDMAPTL201', 'admin')}}"
+FORNAAPTL201 ansible_connection=ssh ansible_host=10.241.115.165 ansible_user=admin ansible_ssh_pass="{{ lookup('getpmppassword','FORNAAPTL201', 'admin')}}"
+[ckpmanagers:vars]
+ansible_user=svc-cpa-bu-sdp
+ansible_ssh_pass="{{ lookup('getpmppassword','TACACS SVC Backup Account', 'svc-cpa-bu-sdp')}}"
+[F5:vars]
+f5_user=admin
+f5_pass="{{ lookup('getpmppassword','temgen1', 'admin')}}"
+[F5special:vars]
+f5_user=admin
+f5_pass="{{ lookup('getpmppassword','MDRCORLB15', 'admin')}}"
+[F5old:vars]
+f5_user=admin
+f5_pass="{{ lookup('getpmppassword','temgen1', 'admin')}}"
+[L4ccm:vars]
+ansible_network_os=ios
+ansible_user=svc-cpa-bu-sdp
+ansible_ssh_pass="{{ lookup('getpmppassword','TACACS SVC Backup Account', 'svc-cpa-bu-sdp')}}"
+[L5switches:vars]
+ansible_network_os=nxos
+ansible_user=svc-cpa-bu-sdp
+ansible_ssh_pass="{{ lookup('getpmppassword','TACACS SVC Backup Account', 'svc-cpa-bu-sdp')}}"

@@ -1,0 +1,26 @@
+---
+
+- name: run command
+  hosts: ckpfirewalls
+  gather_facts: false
+
+  tasks:      
+    - name: run command
+      raw: "{{ item }}"
+      loop:
+        - show asset system
+        - "show version all"
+        - "cpstat os -f cpu"
+        - "cpstat os -f memory"
+        - "cpstat os -f multi_disk"
+        - "cplic print"
+      register: ckpinfo
+
+    - name: parse data
+      set_fact:
+        parsed: "{{ lookup('ckp_info', inventory_hostname, ckpinfo.results, 'fw') }}"
+
+    - name: results
+      debug:
+        var: parsed
+       

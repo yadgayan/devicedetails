@@ -1,0 +1,22 @@
+---
+
+- name: F5 get info
+  hosts: F5old
+  connection: local
+  gather_facts: false
+
+  tasks:
+  - name: Collect BIG-IP information
+    bigip_command:
+      commands: show sys version
+      provider:
+        server: "{{ inventory_hostname }}"      
+        password: "{{ f5_pass}}"
+        user: "T820350"
+        transport: cli
+    register: f5info
+    delegate_to: localhost
+
+  - name: check stuff
+    debug:
+      msg: "{{f5info.stdout_lines[0][3]}}"

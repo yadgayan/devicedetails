@@ -1,0 +1,10 @@
+---
+
+- name: Remove vlan on splat firewalls
+  hosts: mgtsplatfirewalls
+  gather_facts: false
+
+  tasks:
+    - name: Remove vlan
+      raw: "vconfig rem eth6.2596"
+

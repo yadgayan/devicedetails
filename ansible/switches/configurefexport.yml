@@ -1,0 +1,44 @@
+---
+- name: L5 SWT
+  connection: network_cli
+  hosts: L5mgtswitches
+  gather_facts: false
+
+  vars:
+    vlanid: '101'
+
+
+  tasks:
+    - name: Add vlan {{ vlanid }} to FEX port
+      nxos_command:
+        commands:
+        - config t
+        - interface Eth101/1/6
+        - switchport access vlan {{ vlanid }}
+        - spanning-tree port type edge
+        - spanning-tree bpdufilter enable
+        - vpc orphan-port suspend
+        - exit
+        - interface Eth101/1/8
+        - switchport access vlan {{ vlanid }}
+        - spanning-tree port type edge
+        - spanning-tree bpdufilter enable
+        - vpc orphan-port suspend        
+        - exit
+        - interface Eth101/1/10
+        - spanning-tree port type edge
+        - spanning-tree bpdufilter enable
+        - vpc orphan-port suspend
+        - exit 
+        - interface Eth101/1/12
+        - spanning-tree port type edge
+        - spanning-tree bpdufilter enable
+        - vpc orphan-port suspend
+        - exit               
+        - end
+        - copy run start
+      register: res
+
+    - name: Results
+      debug:
+        var: res        

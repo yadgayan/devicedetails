@@ -1,0 +1,79 @@
+---
+
+- name: F5 get info, special auth
+  hosts: F5special
+  connection: local
+  gather_facts: false
+
+  tasks:
+  - name: Collect BIG-IP information
+    bigip_command:
+      commands: 
+      - show sys performance
+      provider:
+        server: "{{ inventory_hostname }}"        
+        password: "{{ lookup('getpmppassword','temgen1', 'admin') }}"
+        user: "T820350"
+        transport: cli
+    register: f5info
+    delegate_to: localhost
+
+  - name: parse data
+    set_fact:
+      parsed: "{{ lookup('f5_perf', inventory_hostname, f5info.stdout_lines) }}"
+
+  - name: results
+    debug:
+      var: parsed
+
+- name: F5 get info
+  hosts: F5
+  connection: local
+  gather_facts: false
+
+  tasks:
+  - name: Collect BIG-IP information
+    bigip_command:
+      commands: 
+      - show sys performance
+      provider:
+        server: "{{ inventory_hostname }}"
+        user: "T820350"
+        password: "{{ f5_pass}}"
+        transport: cli
+    register: f5info
+    delegate_to: localhost
+
+  - name: parse data
+    set_fact:
+      parsed: "{{ lookup('f5_perf', inventory_hostname, f5info.stdout_lines) }}"
+
+  - name: results
+    debug:
+      var: parsed      
+
+- name: F5 get info, old so via cli
+  hosts: F5old
+  connection: local
+  gather_facts: false
+
+  tasks:
+  - name: Collect BIG-IP information
+    bigip_command:
+      commands: 
+      - show sys performance
+      provider:
+        server: "{{ inventory_hostname }}"
+        password: "{{ f5_pass}}"
+        user: "T820350"
+        transport: cli
+    register: f5info
+    delegate_to: localhost
+
+  - name: parse data
+    set_fact:
+      parsed: "{{ lookup('f5_perf', inventory_hostname, f5info.stdout_lines) }}"
+
+  - name: results
+    debug:
+      var: parsed      

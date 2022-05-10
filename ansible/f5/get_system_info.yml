@@ -1,0 +1,88 @@
+---
+
+- name: F5 get info
+  hosts: F5
+  connection: local
+  gather_facts: false
+
+  tasks:
+  - name: Collect BIG-IP information
+    bigip_device_info:
+      gather_subset:
+        - system-info
+      provider:
+        server: "{{ inventory_hostname }}"
+        user: "T820350"
+        password: "{{ f5_pass}}"
+        validate_certs: no
+        server_port: 443
+    register: f5info
+    delegate_to: localhost
+
+  - name: parse data
+    set_fact:
+      parsed: "{{ lookup('f5_info', inventory_hostname, 'normal', f5info.system_info) }}"
+
+  # - name: check stuff
+  #   debug:
+  #     #msg: " {{f5info.system_info.marketing_name}} / chassis_serial: {{f5info.system_info.chassis_serial}} / platform: {{f5info.system_info.platform}} / version: {{f5info.system_info.product_version}}"
+  #     #var: f5info
+  #     var: parsed
+
+- name: F5 get info, special auth
+  hosts: F5special
+  connection: local
+  gather_facts: false
+
+  tasks:
+  - name: Collect BIG-IP information
+    bigip_device_info:
+      gather_subset:
+        - system-info
+      provider:
+        server: "{{ inventory_hostname }}"        
+        password: "{{ f5_pass}}"
+        user: "{{ f5_user}}"
+        validate_certs: no
+        server_port: 443
+    register: f5info
+    delegate_to: localhost
+
+  - name: parse data
+    set_fact:
+      parsed: "{{ lookup('f5_info', inventory_hostname, 'special', f5info.system_info) }}"
+
+  # - name: check stuff
+  #   debug:
+  #     #msg: " {{f5info.system_info.marketing_name}} / chassis_serial: {{f5info.system_info.chassis_serial}} / platform: {{f5info.system_info.platform}} / version: {{f5info.system_info.product_version}}"
+  #     #var: f5info
+  #     var: parsed
+
+- name: F5 get info, old so via cli
+  hosts: F5old
+  connection: local
+  gather_facts: false
+
+  tasks:
+  - name: Collect BIG-IP information
+    bigip_command:
+      commands: 
+      - show sys version
+      - show sys hardware
+      provider:
+        server: "{{ inventory_hostname }}"
+        password: "{{ f5_pass}}"
+        user: "T820350"
+        transport: cli
+    register: f5info
+    delegate_to: localhost
+
+  - name: parse data
+    set_fact:
+      parsed: "{{ lookup('f5_info', inventory_hostname, 'cli', f5info.stdout_lines) }}"
+
+  # - name: check stuff
+  #   debug:
+  #     #msg: "{{f5info.stdout_lines[0][3]}}"
+  #     #var: f5info
+  #     var: parsed
